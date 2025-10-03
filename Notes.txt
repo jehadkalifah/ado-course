@@ -1,0 +1,99 @@
+# Organization Settings
+1- Extensions for Azure DevOps
+
+# Project Settings
+1- Set Group Permissions
+2- Repo Security
+3- Check Settings
+4- Services connections or Agent Pools
+5- Auditing 
+6- Personal Access Token (User Account Level)
+
+# Release Settings
+1- Pipeline variables or Variable groups (a way to store and manage a set of variables and can be accessed with multi pipelines)
+2- Artifact Retentions
+3- Release Options
+
+# Pipeline Settings
+1- Pipeline Approval
+2- Build branch filters
+3- Variables and Parameters (prompt on) 
+4- Share variables between jobs and tasks via Library, 
+5- You can use a concerned extension to execute Terraform, Ansible or using Python Task to run Python script
+
+# Pipeline Yaml Settings
+1- Check Trigger settings to custom automation
+2- Check Pull request (pr) settings to custom automation
+3- Variable methods (helps for docker image tags, deployment .etc)
+   a. share-variables.yml (13. Share variables between jobs and tasks)
+   b. Use predefined variables - predefined-variables.yml - (14. Predefined variables, Working Directories, Git Repositories and Artifacts)
+4- Triggers
+   a. Using rest api to automate trigger pipeline from another - called-from-rest-api.yml/rest-api-object.yml - (15. Using Azure DevOps Rest API)   
+5- Unit Test
+   a. Using developer code test- unit-tests-azuredevops - (16. Build unit tests)
+6- If conditions - conditions.yml - (17. IF Conditions for build pipelines)   
+7- Rename pipeline name - update-build-number.yml - (18. Update pipeline name by changing build number)  
+8- cron schedules - cron-pipeline.yml - (19. Automate pipelines using cron schedules)
+9- Checkout multiple git repositories - multi-repo-checkout.yml - (20. Checkout multiple git repositories on azure devops pipelines)
+10- For looping - loop-start-vm.yml - (21. Looping through tasks)
+11- Execute commands on vms - execute-command.yml - (22. Execute commands on vms)
+12- Artifact - ClassLibrary/push-package-feed.yml - (23. Push package on feed)
+13- Approval - manual-validation.yml - (24. Manual user validation)
+14- executeOnFailure/executeOnSuccess conditions - manual-validation.yml - (24. Manual user validation)
+15- Stages dependencies - stage-dependencies.yml - (25. Stages dependencies)
+16- Jobs dependencies (continueOnError option) - jobs-conditions.yml - (26. Jobs dependencies)
+17- Dynamic dependsOn - dependson-variable.yml - (27. Dynamic dependsOn)
+18- Run pipeline after another - run-pipeline-after-another - (28. Run pipeline after another)
+19- Build and push python container on docker hub - docker-build-push.yml - (37. Build and push python container on docker hub)
+20- Deploy on Azure Kubernetes Service - kubernetes-deployment.yml - (40. Deploy on Azure Kubernetes Service)
+21- Deploy on AWS using Terraform - aws-terraform-deployment.yml - (41. Deploy on AWS using Terraform)
+22- Using Jmeter and performance testing - jmeter (config which should be tested)/jmeter-loadtest.yml - (46. Jmeter and performance testing)
+23- DevOps agent inside linux container (to assign pipeline into linux containers) - devops-agent - (48. DevOps agent inside linux container)
+24- Scan projects with trivy (code security issues) - code-scan-trivy.yml - (49. Scan projects with trivy)
+25- Scan containers with snyk (containers security issues) - snyk-scan-container.yml - (50. Scan containers with snyk)
+26- Scan for secrets and passwords with gitleaks (leaks inside your code) - gitleaks-scan.yml - (51. Scan for secrets and passwords with gitleaks)
+27- Azure Load Testing (used jmeter file (config which should be tested)) - config/azure-load-testing.yml - (52. Azure Load Testing)
+28- Quality gates and Sonarqube - sonarqube-scan.yml - (53. Quality gates and Sonarqube)
+
+# Pipeline Best Practice 
+1- Stages - stages-jobs-tasks.yml - (29. Stages, jobs and tasks inside a YAML pipeline)
+   a. Stages can represent a big unit of actions that should be performed and grouped together
+   b. Ex. a stage for the building of the code, another stage for the building of unit tests, and another stage for the release of our application
+   c. Ex. a stage for dev, another stage for test, and another stage for prod
+   d. you can rerun a failed stage only instead of the whole pipeline
+2- Jobs
+   a. job can include multiple tasks 
+   b. Jobs can offer you parallelism where we should use the jobs inside the stage
+   c. we can also define dependencies for the jobs
+   d. you need to manage failure if a job failed, it will stop other jobs or continue 
+3- Steps
+   a. step that are included inside job are smaller units of action that are executed 
+   b. tasks will run one after another in our pipeline
+4- Templates pipeline - templates/call-template.yml- (30. Using a template structure for YAML pipelines)
+   a. Templates provides the ability to create more structure and modular pipelines in complex and large projects   
+   b. Ex. you could have a common template for multiple environments and only change the variables of the deployment
+   c. Ex. deploy multiple resources using a template and only change the resource each time the using a variable on your pipeline
+5- Approval - env-approvals.yml - (31. Using approvals on build and release pipelines)   
+   a. you you have two ways to create approvals first one from you could use approvals on environments and the second way you can use approvals is with the release pipelines 
+6- Naming principles - (32. Naming principles, builds and releases)   
+   a. you should use a friendly name on your tasks in order to get a quick view of what is currently running on the pipeline itself
+7-  predefined variables - predefined-variables.yml - (32. Naming principles, builds and releases)   
+   a. it will make you structure and build more complex pipelines
+   b. make sure that your store values that you need in your pipeline, in variables
+8- Template pipeline - (32. Naming principles, builds and releases)     
+   a. you should use the templates in order to incorporate logic into different parts of pipelines and split your main pipeline in multiple pieces
+9- Nested templates - templates/combined-template.yml - (33. Templates for tasks, jobs and stages (nested templates))   
+   a. You can have multiple templates inside your DevOps pipeline and create a recursive
+10- Secret - (32. Naming principles, builds and releases)        
+   a. you must never hardcoded secrets inside your pipelines. For this reason, you could use variables that are secret, and also you could use libraries which include For this reason, you could use variables that are secret, and also you could use libraries which include
+
+# Pipeline Consideration Notes
+1- Hierarchy in Azure DevOps Pipelines --> stages --> jobs --> steps
+2- Stage --> Used to separate parts of the pipeline (e.g., Build, Test, Deploy)
+3- Job --> A collection of steps that run on the same agent (Each job gets a fresh VM/container (agent))
+4- Step --> The smallest execution unit inside a job (A step can be either a task (predefined) or a script (custom command))
+
+# Azure DevOps Run Expression Syntax
+1- Macro $(var) - $(buildConfig) - Runtime (Happens when the agent is actually running the pipeline) - variable
+2- Template ${{ }} - ${{ parameters.config }} - Compile time (Happens before the pipeline starts executing) - Parameters, conditionals, templates
+3- Runtime $[ ] - $[eq(variables['Build.SourceBranch'], 'refs/heads/main')] - Runtime - Conditions, dynamic variable values
